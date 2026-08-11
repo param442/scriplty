@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Bell, Code2, Search, Settings, UserCircle2 } from "lucide-react";
 import NewProjectButton from "../ui/NewProjectButton";
-import { createPortal } from "react-dom";
+
 const DashboardNavbar = () => {
   return (
     <motion.header
