@@ -17,6 +17,9 @@ const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
 
 export const authClient = createAuthClient({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
+  fetchOptions: {
+    credentials: "include",
+  },
 });
 
 const signUpWithEmail = async (
