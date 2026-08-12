@@ -1,6 +1,6 @@
 import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { signInWithGithub, signInWithGoogle } from "@/lib/utils";
 const SocialAuthButtons = () => {
   return (
     <div className="space-y-4">
@@ -8,6 +8,7 @@ const SocialAuthButtons = () => {
         <Button
           type="button"
           variant="outline"
+          onClick={signInWithGoogle}
           className="h-11 rounded-xl border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all">
           <svg className="size-4" viewBox="0 0 24 24">
             <path
@@ -32,6 +33,7 @@ const SocialAuthButtons = () => {
         <Button
           type="button"
           variant="outline"
+          onClick={signInWithGithub}
           className="h-11 rounded-xl border-slate-200 bg-white hover:bg-slate-50 hover:border-slate-300 transition-all">
           <Github className="size-4" />
           GitHub

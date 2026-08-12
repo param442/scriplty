@@ -1,8 +1,13 @@
 import { motion } from "motion/react";
 import { Bell, Code2, Search, Settings, UserCircle2 } from "lucide-react";
 import NewProjectButton from "../ui/NewProjectButton";
-
-const DashboardNavbar = () => {
+import { type AuthUser } from "@/lib/utils";
+type NavbarProps = {
+  user: AuthUser | null;
+  onCreateProject: () => void;
+  onLogout: () => void;
+};
+const DashboardNavbar = ({ user, onCreateProject, onLogout }: NavbarProps) => {
   return (
     <motion.header
       initial={{ y: -25, opacity: 0 }}
@@ -39,7 +44,7 @@ const DashboardNavbar = () => {
 
         {/* Right */}
         <div className="flex items-center gap-3">
-          <NewProjectButton />
+          <NewProjectButton onClick={onCreateProject} />
 
           <motion.button
             whileHover={{ scale: 1.08 }}
@@ -62,11 +67,18 @@ const DashboardNavbar = () => {
 
             <div className="hidden md:block text-left">
               <p className="text-sm font-semibold text-slate-800">
-                Param Singh
+                {user?.name || "Developer"}
               </p>
 
               <p className="text-xs text-slate-500">Developer</p>
             </div>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onLogout}
+            className="rounded-xl border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50">
+            Logout
           </motion.button>
         </div>
       </div>

@@ -1,40 +1,59 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import DashboardHero from "@/components/Dashboard/DashboardHero";
 import DashboardNavbar from "@/components/Dashboard/DashboardNavbar";
 import ProjectGrid, { type Project } from "@/components/Dashboard/ProjectGrid";
 import EmptyProjects from "@/components/Dashboard/EmptyProjects";
+import CreateProjectModal from "@/components/ui/CreateProjectModal";
+import { checkAuth, logoutUser, type AuthUser } from "@/lib/utils";
 
 const Dashboard = () => {
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [projects, setProjects] = useState<Project[] | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const navigate = useNavigate();
 
+  // Verify backend authentication state on mount
   useEffect(() => {
-    const fetchProjects = async () => {
+    const verifyAuthentication = async () => {
       try {
-        // const response = await api.get("/projects");
-        // setProjects(response.data);
+        const authenticatedUser = await checkAuth();
 
+        if (!authenticatedUser) {
+          // If not authenticated, redirect to login page
+          navigate("/login", { replace: true });
+          return;
+        }
+
+        setUser(authenticatedUser);
+
+        // Fetch user projects
         setTimeout(() => {
           setProjects([]);
           setLoading(false);
-        }, 1000);
+        }, 400);
       } catch (err) {
-        console.error(err);
-        setProjects([]);
-        setLoading(false);
+        console.error("Authentication check failed:", err);
+        navigate("/login", { replace: true });
       }
     };
 
-    fetchProjects();
-  }, []);
+    verifyAuthentication();
+  }, [navigate]);
 
   const handleCreateProject = () => {
-    console.log("Create Project");
+    setIsCreateModalOpen(true);
   };
 
   const handleOpenProject = (id: string) => {
-    console.log(id);
+    console.log("Opening project:", id);
+  };
+
+  const handleLogout = () => {
+    logoutUser();
+    navigate("/login", { replace: true });
   };
 
   if (loading) {
@@ -49,7 +68,7 @@ const Dashboard = () => {
           animate={{ opacity: [0.4, 1, 0.4] }}
           transition={{ duration: 1.5, repeat: Infinity }}
           className="text-sm font-medium text-slate-500">
-          Loading your workspace...
+          Verifying authentication & loading workspace...
         </motion.p>
       </div>
     );
@@ -57,13 +76,16 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-violet-50/30">
-      <DashboardNavbar />
-
+      <DashboardNavbar
+        user={user}
+        onCreateProject={handleCreateProject}
+        onLogout={handleLogout}
+      />
       <main className="mx-auto max-w-7xl space-y-10 px-6 py-8">
         {projects && projects.length > 0 ? (
           <>
             <DashboardHero
-              userName="Param"
+              userName={user?.name || "Developer"}
               projectCount={projects.length}
               onCreateProject={handleCreateProject}
             />
@@ -75,11 +97,16 @@ const Dashboard = () => {
           </>
         ) : (
           <EmptyProjects
-            userName="Param"
+            userName={user?.name || "Developer"}
             onCreateProject={handleCreateProject}
           />
         )}
       </main>
+
+      <CreateProjectModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+      />
     </div>
   );
 };
