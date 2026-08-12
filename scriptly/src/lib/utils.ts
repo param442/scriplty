@@ -16,7 +16,8 @@ export type AuthUser = {
 const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
 
 export const authClient = createAuthClient({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}`,
+  // Point to frontend, NOT scriplty-backend.vercel.app!
+  baseURL: "https://scriplty.vercel.app",
   fetchOptions: {
     credentials: "include",
   },
