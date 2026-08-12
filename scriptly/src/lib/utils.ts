@@ -13,8 +13,7 @@ export type AuthUser = {
   image?: string | null;
   emailVerified: boolean;
 };
-const FRONTEND_URL =
-  import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173";
+const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
 
 export const authClient = createAuthClient({
   baseURL: import.meta.env.VITE_API_BASE_URL,
