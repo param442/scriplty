@@ -13,9 +13,11 @@ export type AuthUser = {
   image?: string | null;
   emailVerified: boolean;
 };
+const FRONTEND_URL =
+  import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173";
 
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:5000",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 const signUpWithEmail = async (
@@ -75,7 +77,7 @@ const checkAuth = async (): Promise<AuthUser | null> => {
 const signInWithGoogle = async () => {
   const { error } = await authClient.signIn.social({
     provider: "google",
-    callbackURL: "http://localhost:5173/dashboard",
+    callbackURL: FRONTEND_URL + "/dashboard",
   });
 
   if (error) {
@@ -86,7 +88,7 @@ const signInWithGoogle = async () => {
 const signInWithGithub = async () => {
   const { error } = await authClient.signIn.social({
     provider: "github",
-    callbackURL: "http://localhost:5173/dashboard",
+    callbackURL: FRONTEND_URL + "/dashboard",
   });
 
   if (error) {
