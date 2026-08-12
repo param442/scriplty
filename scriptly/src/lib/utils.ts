@@ -76,7 +76,7 @@ const checkAuth = async (): Promise<AuthUser | null> => {
 const signInWithGoogle = async () => {
   const { error } = await authClient.signIn.social({
     provider: "google",
-    callbackURL: FRONTEND_URL + "/dashboard",
+    callbackURL: `${FRONTEND_URL}/dashboard`,
   });
 
   if (error) {
@@ -87,7 +87,7 @@ const signInWithGoogle = async () => {
 const signInWithGithub = async () => {
   const { error } = await authClient.signIn.social({
     provider: "github",
-    callbackURL: FRONTEND_URL + "/dashboard",
+    callbackURL: `${FRONTEND_URL}/dashboard`,
   });
 
   if (error) {
