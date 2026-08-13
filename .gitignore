@@ -1,0 +1,5 @@
+# Ignore Backend submodule/folder in root repo
+Backend/
+node_modules/
+dist/
+.env
