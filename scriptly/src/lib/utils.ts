@@ -13,11 +13,11 @@ export type AuthUser = {
   image?: string | null;
   emailVerified: boolean;
 };
-const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL;
+const FRONTEND_URL =
+  import.meta.env.VITE_FRONTEND_URL ?? "http://localhost:5173";
 
 export const authClient = createAuthClient({
-  // Point to frontend, NOT scriplty-backend.vercel.app!
-  baseURL: "https://scriplty.vercel.app",
+  baseURL: FRONTEND_URL,
   fetchOptions: {
     credentials: "include",
   },
