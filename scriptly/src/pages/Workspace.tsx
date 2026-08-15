@@ -350,7 +350,7 @@ const Workspace: React.FC = () => {
       <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <Group orientation="horizontal">
           {/* Left Sidebar Panel (File Explorer) */}
-          <Panel defaultSize={20} minSize={15} maxSize={45}>
+          <Panel defaultSize={20} minSize={15} className="min-h-0 min-w-0">
             <FileExplorer
               files={project.files}
               activeFileId={activeFileId}
@@ -390,7 +390,7 @@ const Workspace: React.FC = () => {
               <Separator className="h-1 bg-slate-800 hover:bg-violet-500 active:bg-violet-600 transition-colors cursor-row-resize z-10" />
 
               {/* Bottom Console Panel */}
-              <Panel defaultSize={30} minSize={4}>
+              <Panel defaultSize={30} minSize={4} className="min-h-0 min-w-0">
                 <ConsolePanel
                   logs={consoleLogs}
                   isOpen={isConsoleOpen}
