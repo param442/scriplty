@@ -185,7 +185,7 @@ export const saveProject = (project: WorkspaceProject): void => {
 
     // Update projects metadata list for Dashboard
     const projectsListRaw = localStorage.getItem(PROJECTS_LIST_KEY);
-    let projectsList: {
+    const projectsList: {
       id: string;
       name: string;
       description: string;
