@@ -5,7 +5,9 @@ import { Group, Panel, Separator } from "react-resizable-panels";
 import FileExplorer from "@/components/Workspace/FileExplorer";
 import EditorTabs from "@/components/Workspace/EditorTabs";
 import CodeEditor from "@/components/Workspace/CodeEditor";
-import ConsolePanel, { type ConsoleLog } from "@/components/Workspace/ConsolePanel";
+import ConsolePanel, {
+  type ConsoleLog,
+} from "@/components/Workspace/ConsolePanel";
 import {
   loadProject,
   saveProject,
@@ -29,7 +31,7 @@ const Workspace: React.FC = () => {
   const projectName = historyState?.name || "My Workspace";
 
   const [project, setProject] = useState<WorkspaceProject>(() =>
-    loadProject(projectId, projectName)
+    loadProject(projectId, projectName),
   );
 
   const [openFileIds, setOpenFileIds] = useState<string[]>(() => {
@@ -80,8 +82,8 @@ const Workspace: React.FC = () => {
       content: fileExt.endsWith(".html")
         ? `<div>Hello from ${fileExt}!</div>`
         : fileExt.endsWith(".css")
-        ? `/* Styles for ${fileExt} */`
-        : `// ${fileExt}\nconsole.log("Running ${fileExt}");\n`,
+          ? `/* Styles for ${fileExt} */`
+          : `// ${fileExt}\nconsole.log("Running ${fileExt}");\n`,
     };
 
     const updatedFiles = [...project.files, newFile];
@@ -179,7 +181,10 @@ const Workspace: React.FC = () => {
       return;
     }
 
-    if (activeFile.language !== "javascript" && activeFile.language !== "typescript") {
+    if (
+      activeFile.language !== "javascript" &&
+      activeFile.language !== "typescript"
+    ) {
       setConsoleLogs((prev) => [
         ...prev,
         {
@@ -214,7 +219,13 @@ const Workspace: React.FC = () => {
           capturedLogs.push({
             id: crypto.randomUUID(),
             type: "log",
-            message: args.map((arg) => (typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg))).join(" "),
+            message: args
+              .map((arg) =>
+                typeof arg === "object"
+                  ? JSON.stringify(arg, null, 2)
+                  : String(arg),
+              )
+              .join(" "),
             timestamp: new Date().toLocaleTimeString(),
           });
         },
@@ -222,7 +233,13 @@ const Workspace: React.FC = () => {
           capturedLogs.push({
             id: crypto.randomUUID(),
             type: "warn",
-            message: args.map((arg) => (typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg))).join(" "),
+            message: args
+              .map((arg) =>
+                typeof arg === "object"
+                  ? JSON.stringify(arg, null, 2)
+                  : String(arg),
+              )
+              .join(" "),
             timestamp: new Date().toLocaleTimeString(),
           });
         },
@@ -230,7 +247,13 @@ const Workspace: React.FC = () => {
           capturedLogs.push({
             id: crypto.randomUUID(),
             type: "error",
-            message: args.map((arg) => (typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg))).join(" "),
+            message: args
+              .map((arg) =>
+                typeof arg === "object"
+                  ? JSON.stringify(arg, null, 2)
+                  : String(arg),
+              )
+              .join(" "),
             timestamp: new Date().toLocaleTimeString(),
           });
         },
@@ -256,7 +279,8 @@ const Workspace: React.FC = () => {
         timestamp: new Date().toLocaleTimeString(),
       });
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.stack || err.message : String(err);
+      const errorMessage =
+        err instanceof Error ? err.stack || err.message : String(err);
       capturedLogs.push({
         id: crypto.randomUUID(),
         type: "error",
@@ -296,7 +320,10 @@ const Workspace: React.FC = () => {
           <button
             onClick={handleManualSave}
             className="flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900 px-3 py-1.5 text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">
-            <Save size={14} className={saveNotification ? "text-emerald-400" : ""} />
+            <Save
+              size={14}
+              className={saveNotification ? "text-emerald-400" : ""}
+            />
             <span>{saveNotification ? "Saved!" : "Save"}</span>
           </button>
 
@@ -320,7 +347,7 @@ const Workspace: React.FC = () => {
       </header>
 
       {/* Code Editor Main Body Layout with Resizable Panels */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         <Group orientation="horizontal">
           {/* Left Sidebar Panel (File Explorer) */}
           <Panel defaultSize={20} minSize={15} maxSize={45}>
@@ -338,18 +365,24 @@ const Workspace: React.FC = () => {
           <Separator className="w-1 bg-slate-800 hover:bg-violet-500 active:bg-violet-600 transition-colors cursor-col-resize z-10" />
 
           {/* Main Content Area (Tabs + Editor + Bottom Console) */}
-          <Panel defaultSize={80} minSize={55}>
+          <Panel defaultSize={80} minSize={55} className="min-h-0 min-w-0">
             <Group orientation="vertical">
               {/* Code Editor & Tabs Panel */}
-              <Panel defaultSize={70} minSize={25}>
-                <div className="flex h-full flex-col overflow-hidden bg-slate-950">
+              <Panel defaultSize={70} minSize={10}>
+                <div className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden bg-slate-950">
                   <EditorTabs
                     openFiles={openFiles}
                     activeFileId={activeFileId}
                     onSelectTab={setActiveFileId}
                     onCloseTab={handleCloseTab}
                   />
-                  <CodeEditor file={activeFile} onContentChange={handleContentChange} />
+
+                  <div className="min-h-0 min-w-0 flex-1 overflow-hidden">
+                    <CodeEditor
+                      file={activeFile}
+                      onContentChange={handleContentChange}
+                    />
+                  </div>
                 </div>
               </Panel>
 
@@ -357,7 +390,7 @@ const Workspace: React.FC = () => {
               <Separator className="h-1 bg-slate-800 hover:bg-violet-500 active:bg-violet-600 transition-colors cursor-row-resize z-10" />
 
               {/* Bottom Console Panel */}
-              <Panel defaultSize={30} minSize={6} maxSize={65}>
+              <Panel defaultSize={30} minSize={4}>
                 <ConsolePanel
                   logs={consoleLogs}
                   isOpen={isConsoleOpen}
