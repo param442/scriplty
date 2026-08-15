@@ -81,11 +81,9 @@ const checkAuth = async (): Promise<AuthUser | null> => {
 };
 
 const signInWithGoogle = async () => {
-  const currentOrigin =
-    typeof window !== "undefined" ? window.location.origin : FRONTEND_URL;
   const { error } = await authClient.signIn.social({
     provider: "google",
-    callbackURL: `${currentOrigin}/dashboard`,
+    callbackURL: `${FRONTEND_URL}/dashboard`,
   });
 
   if (error) {
@@ -94,11 +92,9 @@ const signInWithGoogle = async () => {
 };
 
 const signInWithGithub = async () => {
-  const currentOrigin =
-    typeof window !== "undefined" ? window.location.origin : FRONTEND_URL;
   const { error } = await authClient.signIn.social({
     provider: "github",
-    callbackURL: `${currentOrigin}/dashboard`,
+    callbackURL: `${FRONTEND_URL}/dashboard`,
   });
 
   if (error) {
