@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { createAuthClient } from "better-auth/react";
+import { redirect } from "react-router";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,9 +16,11 @@ export type AuthUser = {
 };
 const FRONTEND_URL =
   import.meta.env.VITE_FRONTEND_URL ?? "http://localhost:5173";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000";
 
 export const authClient = createAuthClient({
-  baseURL: FRONTEND_URL,
+  baseURL: API_BASE_URL,
   fetchOptions: {
     credentials: "include",
   },
@@ -78,9 +81,11 @@ const checkAuth = async (): Promise<AuthUser | null> => {
 };
 
 const signInWithGoogle = async () => {
+  const currentOrigin =
+    typeof window !== "undefined" ? window.location.origin : FRONTEND_URL;
   const { error } = await authClient.signIn.social({
     provider: "google",
-    callbackURL: `${FRONTEND_URL}/dashboard`,
+    callbackURL: `${currentOrigin}/dashboard`,
   });
 
   if (error) {
@@ -89,14 +94,25 @@ const signInWithGoogle = async () => {
 };
 
 const signInWithGithub = async () => {
+  const currentOrigin =
+    typeof window !== "undefined" ? window.location.origin : FRONTEND_URL;
   const { error } = await authClient.signIn.social({
     provider: "github",
-    callbackURL: `${FRONTEND_URL}/dashboard`,
+    callbackURL: `${currentOrigin}/dashboard`,
   });
 
   if (error) {
     console.error("GitHub login error:", error);
   }
+};
+const protectedLoader = async () => {
+  const user = await checkAuth();
+
+  if (!user) {
+    throw redirect("/login");
+  }
+
+  return user;
 };
 
 export {
@@ -106,4 +122,5 @@ export {
   signInWithGithub,
   logoutUser,
   checkAuth,
+  protectedLoader,
 };

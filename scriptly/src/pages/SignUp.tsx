@@ -138,6 +138,7 @@ const SignUp = () => {
 
         <Button
           type="submit"
+          onClick={handleSubmit}
           disabled={loading}
           className="w-full h-12 rounded-xl text-base font-semibold bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-lg shadow-violet-500/30 hover:shadow-violet-500/40 hover:scale-[1.01] transition-all cursor-pointer">
           {loading ? (

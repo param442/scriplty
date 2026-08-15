@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Workspace from "./pages/Workspace";
-
+import { protectedLoader } from "./lib/utils";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -22,12 +22,18 @@ const router = createBrowserRouter([
     Component: SignUp,
   },
   {
-    path: "/dashboard",
-    Component: Dashboard,
-  },
-  {
-    path: "/workspace",
-    Component: Workspace,
+    // protected routes
+    loader: protectedLoader,
+    children: [
+      {
+        path: "/dashboard",
+        Component: Dashboard,
+      },
+      {
+        path: "/workspace",
+        Component: Workspace,
+      },
+    ],
   },
 ]);
 

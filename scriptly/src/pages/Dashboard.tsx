@@ -7,6 +7,7 @@ import ProjectGrid, { type Project } from "@/components/Dashboard/ProjectGrid";
 import EmptyProjects from "@/components/Dashboard/EmptyProjects";
 import CreateProjectModal from "@/components/ui/CreateProjectModal";
 import { checkAuth, logoutUser, type AuthUser } from "@/lib/utils";
+import { getStoredProjectsMeta } from "@/lib/workspace";
 
 const Dashboard = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -15,7 +16,7 @@ const Dashboard = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Verify backend authentication state on mount
+  // Verify backend authentication state on mount and load projects
   useEffect(() => {
     const verifyAuthentication = async () => {
       try {
@@ -29,11 +30,10 @@ const Dashboard = () => {
 
         setUser(authenticatedUser);
 
-        // Fetch user projects
-        setTimeout(() => {
-          setProjects([]);
-          setLoading(false);
-        }, 400);
+        // Load stored user projects
+        const stored = getStoredProjectsMeta();
+        setProjects(stored);
+        setLoading(false);
       } catch (err) {
         console.error("Authentication check failed:", err);
         navigate("/login", { replace: true });
@@ -48,7 +48,15 @@ const Dashboard = () => {
   };
 
   const handleOpenProject = (id: string) => {
-    console.log("Opening project:", id);
+    const target = projects?.find((p) => p.id === id);
+    navigate("/workspace", {
+      state: {
+        project: {
+          id,
+          name: target?.name || "Workspace Project",
+        },
+      },
+    });
   };
 
   const handleLogout = () => {
