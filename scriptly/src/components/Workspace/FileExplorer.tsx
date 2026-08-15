@@ -99,7 +99,7 @@ const FileExplorer: React.FC<FileExplorerProps> = ({
   };
 
   return (
-    <aside className="w-full h-full bg-slate-900/60 flex flex-col select-none overflow-hidden">
+    <aside className="w-full h-full bg-slate-900/60 flex flex-col select-none overflow-hidden min-w-[160px]">
       {/* Sidebar Header */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800/80">
         <div className="flex items-center gap-2 text-slate-300 font-semibold text-xs uppercase tracking-wider">
