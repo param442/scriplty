@@ -14,6 +14,7 @@ export type AuthUser = {
   image?: string | null;
   emailVerified: boolean;
 };
+
 const FRONTEND_URL =
   import.meta.env.VITE_FRONTEND_URL ?? "http://localhost:5173";
 
@@ -99,6 +100,8 @@ const signInWithGithub = async () => {
     console.error("GitHub login error:", error);
   }
 };
+
+// Loader for protected routes: if no active session, send to /login
 const protectedLoader = async () => {
   const user = await checkAuth();
 
@@ -109,6 +112,17 @@ const protectedLoader = async () => {
   return user;
 };
 
+// Loader for homepage and guest pages: if active session exists, send to /dashboard
+const guestOnlyLoader = async () => {
+  const user = await checkAuth();
+
+  if (user) {
+    throw redirect("/dashboard");
+  }
+
+  return null;
+};
+
 export {
   signUpWithEmail,
   signInWithEmail,
@@ -117,4 +131,5 @@ export {
   logoutUser,
   checkAuth,
   protectedLoader,
+  guestOnlyLoader,
 };

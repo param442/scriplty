@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, Code2, Play, Share2, Users, Save } from "lucide-react";
+import { Group, Panel, Separator } from "react-resizable-panels";
 import FileExplorer from "@/components/Workspace/FileExplorer";
 import EditorTabs from "@/components/Workspace/EditorTabs";
 import CodeEditor from "@/components/Workspace/CodeEditor";
@@ -318,40 +319,60 @@ const Workspace: React.FC = () => {
         </div>
       </header>
 
-      {/* Code Editor Main Body Layout */}
+      {/* Code Editor Main Body Layout with Resizable Panels */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar File Explorer */}
-        <FileExplorer
-          files={project.files}
-          activeFileId={activeFileId}
-          onSelectFile={handleSelectFile}
-          onCreateFile={handleCreateFile}
-          onDeleteFile={handleDeleteFile}
-          onRenameFile={handleRenameFile}
-        />
+        <Group orientation="horizontal">
+          {/* Left Sidebar Panel (File Explorer) */}
+          <Panel defaultSize={20} minSize={12} maxSize={35}>
+            <FileExplorer
+              files={project.files}
+              activeFileId={activeFileId}
+              onSelectFile={handleSelectFile}
+              onCreateFile={handleCreateFile}
+              onDeleteFile={handleDeleteFile}
+              onRenameFile={handleRenameFile}
+            />
+          </Panel>
 
-        {/* Main Code Editing & Console Area */}
-        <main className="flex flex-1 flex-col overflow-hidden bg-slate-950">
-          {/* Top Tabs */}
-          <EditorTabs
-            openFiles={openFiles}
-            activeFileId={activeFileId}
-            onSelectTab={setActiveFileId}
-            onCloseTab={handleCloseTab}
-          />
+          {/* Draggable Vertical Splitter Handle */}
+          <Separator className="w-1 bg-slate-800 hover:bg-violet-500 active:bg-violet-600 transition-colors cursor-col-resize z-10" />
 
-          {/* Central Code Editor */}
-          <CodeEditor file={activeFile} onContentChange={handleContentChange} />
+          {/* Main Content Area (Tabs + Editor + Bottom Console) */}
+          <Panel defaultSize={80}>
+            <Group orientation="vertical">
+              {/* Code Editor & Tabs Panel */}
+              <Panel defaultSize={75} minSize={30}>
+                <div className="flex h-full flex-col overflow-hidden bg-slate-950">
+                  <EditorTabs
+                    openFiles={openFiles}
+                    activeFileId={activeFileId}
+                    onSelectTab={setActiveFileId}
+                    onCloseTab={handleCloseTab}
+                  />
+                  <CodeEditor file={activeFile} onContentChange={handleContentChange} />
+                </div>
+              </Panel>
 
-          {/* Bottom Console / Output Panel */}
-          <ConsolePanel
-            logs={consoleLogs}
-            isOpen={isConsoleOpen}
-            onToggle={() => setIsConsoleOpen((prev) => !prev)}
-            onClear={() => setConsoleLogs([])}
-            onRun={handleRunCode}
-          />
-        </main>
+              {/* Draggable Horizontal Splitter Handle */}
+              {isConsoleOpen && (
+                <Separator className="h-1 bg-slate-800 hover:bg-violet-500 active:bg-violet-600 transition-colors cursor-row-resize z-10" />
+              )}
+
+              {/* Bottom Console Panel */}
+              {isConsoleOpen && (
+                <Panel defaultSize={25} minSize={10} maxSize={60}>
+                  <ConsolePanel
+                    logs={consoleLogs}
+                    isOpen={isConsoleOpen}
+                    onToggle={() => setIsConsoleOpen((prev) => !prev)}
+                    onClear={() => setConsoleLogs([])}
+                    onRun={handleRunCode}
+                  />
+                </Panel>
+              )}
+            </Group>
+          </Panel>
+        </Group>
       </div>
     </div>
   );

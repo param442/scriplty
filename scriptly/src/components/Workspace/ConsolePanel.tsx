@@ -24,10 +24,7 @@ const ConsolePanel: React.FC<ConsolePanelProps> = ({
   onRun,
 }) => {
   return (
-    <div
-      className={`border-t border-slate-800 bg-slate-950 font-mono transition-all duration-200 flex flex-col ${
-        isOpen ? "h-56" : "h-9"
-      }`}>
+    <div className="w-full h-full border-t border-slate-800 bg-slate-950 font-mono flex flex-col overflow-hidden">
       {/* Console Header Bar */}
       <div className="flex h-9 items-center justify-between border-b border-slate-800 bg-slate-900/90 px-4 text-xs font-sans select-none shrink-0">
         <div className="flex items-center gap-3">
