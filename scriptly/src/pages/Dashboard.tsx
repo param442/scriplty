@@ -22,11 +22,11 @@ const Dashboard = () => {
       try {
         const authenticatedUser = await checkAuth();
 
-        // if (!authenticatedUser) {
-        //   // If not authenticated, redirect to login page
-        //   navigate("/login", { replace: true });
-        //   return;
-        // }
+        if (!authenticatedUser) {
+          // If not authenticated, redirect to login page
+          navigate("/login", { replace: true });
+          return;
+        }
 
         setUser(authenticatedUser);
 
