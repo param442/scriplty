@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Workspace from "./pages/Workspace";
 import { protectedLoader, guestOnlyLoader } from "./lib/utils";
 import { Toaster } from "@/components/ui/sonner";
+import VerifyEmail from "./pages/VerifyEmail";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     path: "/signup",
     loader: guestOnlyLoader,
     Component: SignUp,
+  },
+  {
+    path: "/verify-email",
+    Component: VerifyEmail,
   },
   {
     // protected routes
