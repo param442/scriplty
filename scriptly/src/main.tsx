@@ -8,7 +8,7 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Workspace from "./pages/Workspace";
 import { protectedLoader, guestOnlyLoader } from "./lib/utils";
-
+import { Toaster } from "@/components/ui/sonner";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,5 +42,8 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />,
+  <>
+    <RouterProvider router={router} />,
+    <Toaster />
+  </>,
 );

@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { createAuthClient } from "better-auth/react";
 import { redirect } from "react-router";
+import { toast } from "sonner";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -37,6 +38,7 @@ const signUpWithEmail = async (
   });
 
   if (error) {
+    alert(error);
     throw new Error(error.message);
   }
 
@@ -123,6 +125,35 @@ const guestOnlyLoader = async () => {
   return null;
 };
 
+// resend verification email function
+const resendVerificationEmail = async (email: string) => {
+  const { error } = await authClient.sendVerificationEmail({
+    email,
+    callbackURL: "/verify-email",
+  });
+
+  if (error) {
+    console.error("Error sending verification email:", error);
+    return;
+  }
+
+  toast.success("Verification email sent!");
+};
+
+const verifyEmail = async (token: string) => {
+  const { error } = await authClient.verifyEmail({
+    query: {
+      token,
+      callbackURL: "/dashboard",
+    },
+  });
+
+  if (error) {
+    console.error("Error verifying email:", error);
+    return { success: false, token: null };
+  }
+  return { success: true, token };
+};
 export {
   signUpWithEmail,
   signInWithEmail,
@@ -132,4 +163,6 @@ export {
   checkAuth,
   protectedLoader,
   guestOnlyLoader,
+  resendVerificationEmail,
+  verifyEmail,
 };

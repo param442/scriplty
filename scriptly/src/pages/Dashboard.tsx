@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const navigate = useNavigate();
-
+  const [emailVerified, setEmailVerified] = useState(false);
   // Verify backend authentication state on mount and load projects
   useEffect(() => {
     const verifyAuthentication = async () => {
@@ -23,11 +23,11 @@ const Dashboard = () => {
         const authenticatedUser = await checkAuth();
 
         if (!authenticatedUser) {
-          // If not authenticated, redirect to login page
           navigate("/login", { replace: true });
           return;
         }
 
+        setEmailVerified(authenticatedUser.emailVerified ?? false);
         setUser(authenticatedUser);
 
         // Load stored user projects
@@ -88,6 +88,7 @@ const Dashboard = () => {
         user={user}
         onCreateProject={handleCreateProject}
         onLogout={handleLogout}
+        IsEmailVerified={emailVerified}
       />
       <main className="mx-auto max-w-7xl space-y-10 px-6 py-8">
         {projects && projects.length > 0 ? (
