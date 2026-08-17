@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useNavigate } from "react-router";
 import { Bell, Code2, Search, Settings, UserCircle2 } from "lucide-react";
 import NewProjectButton from "../ui/NewProjectButton";
 import { type AuthUser } from "@/lib/utils";
@@ -19,6 +20,8 @@ const DashboardNavbar = ({
   onLogout,
   IsEmailVerified,
 }: NavbarProps) => {
+  const navigate = useNavigate();
+
   return (
     <motion.header
       initial={{ y: -25, opacity: 0 }}
@@ -83,6 +86,7 @@ const DashboardNavbar = ({
           )}
           <motion.button
             whileHover={{ scale: 1.05 }}
+            onClick={() => navigate("/settings/account")}
             className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 hover:bg-slate-50">
             <UserCircle2 size={34} className="text-violet-600" />
 
