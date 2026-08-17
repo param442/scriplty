@@ -8,12 +8,14 @@ import { Badge } from "@/components/ui/badge";
 type NavbarProps = {
   user: AuthUser | null;
   onCreateProject: () => void;
+  onOpenSettings: () => void;
   onLogout: () => void;
   IsEmailVerified: boolean;
 };
 const DashboardNavbar = ({
   user,
   onCreateProject,
+  onOpenSettings,
   onLogout,
   IsEmailVerified,
 }: NavbarProps) => {
@@ -65,6 +67,7 @@ const DashboardNavbar = ({
           <motion.button
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
+            onClick={onOpenSettings}
             className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50">
             <Settings size={20} className="text-slate-600" />
           </motion.button>

@@ -6,6 +6,7 @@ import DashboardNavbar from "@/components/Dashboard/DashboardNavbar";
 import ProjectGrid, { type Project } from "@/components/Dashboard/ProjectGrid";
 import EmptyProjects from "@/components/Dashboard/EmptyProjects";
 import CreateProjectModal from "@/components/ui/CreateProjectModal";
+import SettingsModal from "@/components/Dashboard/SettingsModal";
 import { checkAuth, logoutUser, type AuthUser } from "@/lib/utils";
 import { getStoredProjectsMeta } from "@/lib/workspace";
 
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const [projects, setProjects] = useState<Project[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [emailVerified, setEmailVerified] = useState(false);
   // Verify backend authentication state on mount and load projects
@@ -45,6 +47,10 @@ const Dashboard = () => {
 
   const handleCreateProject = () => {
     setIsCreateModalOpen(true);
+  };
+
+  const handleOpenSettings = () => {
+    setIsSettingsModalOpen(true);
   };
 
   const handleOpenProject = (id: string) => {
@@ -87,6 +93,7 @@ const Dashboard = () => {
       <DashboardNavbar
         user={user}
         onCreateProject={handleCreateProject}
+        onOpenSettings={handleOpenSettings}
         onLogout={handleLogout}
         IsEmailVerified={emailVerified}
       />
@@ -115,6 +122,12 @@ const Dashboard = () => {
       <CreateProjectModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
+      />
+
+      <SettingsModal
+        isOpen={isSettingsModalOpen}
+        onClose={() => setIsSettingsModalOpen(false)}
+        user={user}
       />
     </div>
   );
