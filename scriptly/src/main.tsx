@@ -9,6 +9,10 @@ import Dashboard from "./pages/Dashboard";
 import Workspace from "./pages/Workspace";
 import AccountSettings from "./pages/settings/AccountSettings";
 import AboutSettings from "./pages/settings/AboutSettings";
+import PreferencesSettings from "./pages/settings/PreferencesSettings";
+import SecuritySettings from "./pages/settings/SecuritySettings";
+import NotificationSettings from "./pages/settings/NotificationSettings";
+import BillingSettings from "./pages/settings/BillingSettings";
 import { protectedLoader, guestOnlyLoader } from "./lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -47,6 +51,22 @@ const router = createBrowserRouter([
       {
         path: "/settings/account",
         Component: AccountSettings,
+      },
+      {
+        path: "/settings/preferences",
+        Component: PreferencesSettings,
+      },
+      {
+        path: "/settings/security",
+        Component: SecuritySettings,
+      },
+      {
+        path: "/settings/notifications",
+        Component: NotificationSettings,
+      },
+      {
+        path: "/settings/billing",
+        Component: BillingSettings,
       },
       {
         path: "/settings/about",
