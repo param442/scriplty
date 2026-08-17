@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
-import { UserCircle2, Info, Paintbrush, ShieldCheck, Bell, CreditCard } from "lucide-react";
+import { UserCircle2, Info, Paintbrush, ShieldCheck, Bell, CreditCard, MessageSquare } from "lucide-react";
 
 interface SettingsSidebarProps {
   isOpen: boolean;
@@ -74,6 +74,20 @@ const SettingsSidebar = ({ isOpen, onClose }: SettingsSidebarProps) => {
             <div className="flex flex-col items-start">
               <span className="font-medium text-slate-700 group-hover:text-emerald-700">Security</span>
               <span className="text-xs text-slate-500 font-normal">Password and sessions</span>
+            </div>
+          </Button>
+
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-left px-4 py-6 hover:bg-sky-50 hover:shadow-sm group transition-all"
+            onClick={() => handleNavigate("/settings/messages")}
+          >
+            <div className="mr-4 p-2 rounded-lg bg-sky-100 text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+              <MessageSquare className="h-5 w-5" />
+            </div>
+            <div className="flex flex-col items-start">
+              <span className="font-medium text-slate-700 group-hover:text-sky-700">Messages</span>
+              <span className="text-xs text-slate-500 font-normal">Team chats and direct messages</span>
             </div>
           </Button>
 

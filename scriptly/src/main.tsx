@@ -13,6 +13,7 @@ import PreferencesSettings from "./pages/settings/PreferencesSettings";
 import SecuritySettings from "./pages/settings/SecuritySettings";
 import NotificationSettings from "./pages/settings/NotificationSettings";
 import BillingSettings from "./pages/settings/BillingSettings";
+import MessagesSettings from "./pages/settings/MessagesSettings";
 import { protectedLoader, guestOnlyLoader } from "./lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/settings/billing",
         Component: BillingSettings,
+      },
+      {
+        path: "/settings/messages",
+        Component: MessagesSettings,
       },
       {
         path: "/settings/about",
