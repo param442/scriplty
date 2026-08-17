@@ -5,6 +5,7 @@ import NewProjectButton from "../ui/NewProjectButton";
 import { type AuthUser } from "@/lib/utils";
 import { resendVerificationEmail } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { MessageSquare } from "lucide-react";
 
 type NavbarProps = {
   user: AuthUser | null;
@@ -12,6 +13,7 @@ type NavbarProps = {
   onOpenSettings: () => void;
   onLogout: () => void;
   IsEmailVerified: boolean;
+  onOpenMessages: () => void;
 };
 const DashboardNavbar = ({
   user,
@@ -19,6 +21,7 @@ const DashboardNavbar = ({
   onOpenSettings,
   onLogout,
   IsEmailVerified,
+  onOpenMessages,
 }: NavbarProps) => {
   const navigate = useNavigate();
 
@@ -73,6 +76,13 @@ const DashboardNavbar = ({
             onClick={onOpenSettings}
             className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50">
             <Settings size={20} className="text-slate-600" />
+          </motion.button>
+          <motion.button
+            onClick={onOpenMessages}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white hover:bg-slate-50">
+            <MessageSquare size={20} className="text-slate-600" />
           </motion.button>
           {!IsEmailVerified && (
             <motion.section

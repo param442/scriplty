@@ -9,6 +9,7 @@ import CreateProjectModal from "@/components/ui/CreateProjectModal";
 import SettingsSidebar from "@/components/Dashboard/SettingsSidebar";
 import { checkAuth, logoutUser, type AuthUser } from "@/lib/utils";
 import { getStoredProjectsMeta } from "@/lib/workspace";
+import ChatSidebar from "@/components/Dashboard/ChatSidebar";
 
 const Dashboard = () => {
   const [user, setUser] = useState<AuthUser | null>(null);
@@ -16,8 +17,10 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isMessagesModalOpen, setIsMessagesModalOpen] = useState(false);
   const navigate = useNavigate();
   const [emailVerified, setEmailVerified] = useState(false);
+  // setEmailVerified(false);
   // Verify backend authentication state on mount and load projects
   useEffect(() => {
     const verifyAuthentication = async () => {
@@ -31,6 +34,8 @@ const Dashboard = () => {
 
         setEmailVerified(authenticatedUser.emailVerified ?? false);
         setUser(authenticatedUser);
+        setEmailVerified(true);
+        setUser(null);
 
         // Load stored user projects
         const stored = getStoredProjectsMeta();
@@ -51,6 +56,9 @@ const Dashboard = () => {
 
   const handleOpenSettings = () => {
     setIsSettingsModalOpen(true);
+  };
+  const handleOpenMessages = () => {
+    setIsMessagesModalOpen(true);
   };
 
   const handleOpenProject = (id: string) => {
@@ -95,6 +103,7 @@ const Dashboard = () => {
         onCreateProject={handleCreateProject}
         onOpenSettings={handleOpenSettings}
         onLogout={handleLogout}
+        onOpenMessages={handleOpenMessages}
         IsEmailVerified={emailVerified}
       />
       <main className="mx-auto max-w-7xl space-y-10 px-6 py-8">
@@ -128,8 +137,11 @@ const Dashboard = () => {
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
       />
+      <ChatSidebar
+        isOpen={isMessagesModalOpen}
+        onClose={() => setIsMessagesModalOpen(false)}
+      />
     </div>
   );
 };
-
 export default Dashboard;

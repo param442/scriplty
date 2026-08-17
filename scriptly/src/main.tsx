@@ -37,8 +37,9 @@ const router = createBrowserRouter([
     path: "/verify-email",
     Component: VerifyEmail,
   },
+
   {
-    // protected routes
+    //  protected routes
     loader: protectedLoader,
     children: [
       {
