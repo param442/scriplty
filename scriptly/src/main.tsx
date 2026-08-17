@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Workspace from "./pages/Workspace";
+import AccountSettings from "./pages/settings/AccountSettings";
+import AboutSettings from "./pages/settings/AboutSettings";
 import { protectedLoader, guestOnlyLoader } from "./lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import VerifyEmail from "./pages/VerifyEmail";
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
       {
         path: "/workspace",
         Component: Workspace,
+      },
+      {
+        path: "/settings/account",
+        Component: AccountSettings,
+      },
+      {
+        path: "/settings/about",
+        Component: AboutSettings,
       },
     ],
   },

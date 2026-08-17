@@ -6,7 +6,7 @@ import DashboardNavbar from "@/components/Dashboard/DashboardNavbar";
 import ProjectGrid, { type Project } from "@/components/Dashboard/ProjectGrid";
 import EmptyProjects from "@/components/Dashboard/EmptyProjects";
 import CreateProjectModal from "@/components/ui/CreateProjectModal";
-import SettingsModal from "@/components/Dashboard/SettingsModal";
+import SettingsSidebar from "@/components/Dashboard/SettingsSidebar";
 import { checkAuth, logoutUser, type AuthUser } from "@/lib/utils";
 import { getStoredProjectsMeta } from "@/lib/workspace";
 
@@ -124,10 +124,9 @@ const Dashboard = () => {
         onClose={() => setIsCreateModalOpen(false)}
       />
 
-      <SettingsModal
+      <SettingsSidebar
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
-        user={user}
       />
     </div>
   );
